@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xlink">
+<head>
+    <meta charset="UTF-8">
+    <title>用户信息</title>
+</head>
+<script  type="text/javascript" src="../webjars/jquery/3.4.1/jquery.min.js"></script>
+<body>
+<div>
+<table border="1">
+    <thead class="biaoti">
+  <!--  <tr>
+        <td>账号</td>
+        <td>姓名</td>
+        <td>性别</td>
+        <td>联系方式</td>
+        <td>班级</td>
+        <td>密码</td>
+
+    </tr>-->
+    </thead>
+    <tbody class="wenben">
+
+<!--    <tr >
+        <td> ${list.uId}</td>
+        <td>"${user.u_name}"</td>
+        <td >"${user.u_sex}"</td>
+        <td >"${user.u_phone}"</td>
+        <td >"${user.u_class}"</td>
+        <td >"${user.u_pwd}"</td>
+    </tr>-->
+
+    </tbody>
+</table>
+</div>
+<a href="login.html"  >新建</a>
+
+
+</body>
+<script type="text/javascript">
+
+    var ad = {
+        init: function(){
+            ad.yonghu();
+
+        },
+   yonghu :function () {
+        $(".biaoti").html("");
+        $(".wenben").html("");
+        var Uhtml = "<tr>"+
+                "<td>账号</td>" +
+                "<td>姓名</td>" +
+                " <td>性别</td>" +
+            " <td>联系方式</td>" +
+            " <td>班级</td>" +
+            " <td>密码</td>"+
+                "</tr>";
+        $(".biaoti").append($(Uhtml));
+
+        $.ajax({
+            url:"http://localhost:8080/equipment_war/userList",
+            type:"POST",
+            data:{},
+            dataType:'json',
+            success:function (data) {
+                for (var i = 0;i<data.length;i++){
+                    var  val = data[i];
+                    var  _html="<tr>"+
+                            "<td> "+val.u_id+"</td>" +
+                            "<td>"+val.u_name+"</td>" +
+                            "<td >"+val.u_sex+"</td>" +
+                            "<td >"+val.u_phone+"</td>" +
+                            "<td >"+val.u_class+"</td>" +
+                            "<td >"+val.u_pwd+"</td>"+
+                            "</tr>";
+                    $(".wenben").append($(_html));
+                };
+                
+            },
+            error:function () {
+                alert("失败")
+            
+        }
+        });
+
+    }
+    }
+    ad.init();
+
+
+</script>
+</html>
