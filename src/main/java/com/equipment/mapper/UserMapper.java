@@ -9,4 +9,10 @@ public interface UserMapper {
    public   List<User> getUsers(User user);
    //添加用户
    public  int insertUser(User user);
+   //刪除用戶
+   public  void  deleteUser(String u_id);
+   //修改用户
+   public  int updateUser(User user);
+   //查询单个信息
+    public User oneUser(String u_id);
 }

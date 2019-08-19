@@ -1,0 +1,5 @@
+com\equipment\mapper\UserMapper.class
+com\equipment\entity\User.class
+com\equipment\controller\UserController.class
+com\equipment\service\UserService.class
+com\equipment\service\UserServiceImpl.class
