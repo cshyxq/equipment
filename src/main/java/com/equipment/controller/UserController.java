@@ -21,7 +21,7 @@ public class UserController {
 //    查询所有用户信息
     @RequestMapping("/userList")
     @ResponseBody
-    public Object list(User user,Model model){
+   public Object list(User user,Model model){
         List<User>listU=userService.list(user);
         String objectStr = JSONObject.toJSONString(listU);//转换成json格式
         System.out.println("打印查询");
@@ -40,7 +40,7 @@ public Object one(String u_id,Model model){
     @RequestMapping("/addUser")
     @ResponseBody
     public  Object insert(User add){
-        System.out.println(add);
+        System.out.println("打印添加");
       int  row = userService.insertUser(add);
       if (row>0){
           return "OK";

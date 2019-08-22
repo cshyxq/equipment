@@ -13,6 +13,7 @@ public interface UserMapper {
    public  void  deleteUser(String u_id);
    //修改用户
    public  int updateUser(User user);
-   //查询单个信息
+   //查询搜索信息
     public User oneUser(String u_id);
+    public User serchPhone(String u_phone);
 }

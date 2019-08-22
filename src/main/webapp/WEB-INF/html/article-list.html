@@ -28,16 +28,16 @@
 	<div class="text-container">
 		<button onclick="removeIframe()" class="btn btn-primary radius">关闭选项卡</button>
 	 <span class="select-box inline">
-		<select name="" class="select">
-			<option value="0">全部分类</option>
-			<option value="1">分类一</option>
-			<option value="2">分类二</option>
+		<select name="cars" class="select">
+			<option value="0">性别</option>
+			<option value="1">男</option>
+			<option value="2">女</option>
 		</select>
 		</span> 日期范围：
 		<input type="text" onfocus="WdatePicker({ maxDate:'#F{$dp.$D(\'logmax\')||\'%y-%M-%d\'}' })" id="logmin" class="input-text Wdate" style="width:120px;">
 		<input type="text" onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'logmin\')}',maxDate:'%y-%M-%d' })" id="logmax" class="input-text Wdate" style="width:120px;">
-		<input type="text" name="" id="zixunname"  placeholder=" 资讯名称" style="width:250px" class="input-text">
-		<button name="" id="submitname" class="btn btn-success" type="submit"><i class="Hui-iconfont">&#xe665;</i> 搜资讯</button>
+		<input type="text" name="" id="zixunname"  placeholder=" " style="width:250px" class="input-text">
+		<button name="" id="submitname" class="btn btn-success" type="submit"><i class="Hui-iconfont">&#xe665;</i> 搜索</button>
 	</div>
 	<div class="cl pd-5 bg-1 bk-gray mt-20" id="layerDemo" > <span class="l">
         <a href="javascript:;" onclick="datadel()" class="btn btn-danger radius">
@@ -56,14 +56,10 @@
 					<th width="80">联系方式</th>
 					<th width="120">班级</th>
 					<th width="75">密码</th>
-
 					<th width="120">操作</th>
 				</tr>
 			</thead>
 			<tbody class="text-c">
-
-
-
 			</tbody>
 		</table>
 	</div>
@@ -104,7 +100,7 @@
 			// $(".biaoti").append($(Uhtml));
 
 			$.ajax({
-				url:"http://localhost:8080/equipment_war/userList",
+				url:"http://localhost:8080/equipment_war_exploded/userList",
 				type:"POST",
 				data:{},
 				dataType:'json',
@@ -112,6 +108,7 @@
 					ad.data = data;
 					for (var i = 0;i<data.length;i++){
 						var  val = data[i];
+						console.log(val)
 						var  _html="<tr>"+
 								"<td><input align='center' type='checkbox' value='' name=''></td>"+
 								"<td id='Yid'> "+val.u_id+"</td>" +
@@ -121,8 +118,8 @@
 								"<td  id='Yclass'>"+val.u_class+"</td>" +
 								"<td  id='Ypwd'>"+val.u_pwd+"</td>"+
 								"<td class='f-14 td-manage'><a style='text-decoration:none' </a> " +
-								"<a style='text-decoration:none' href='javascript:;' data-method='offset1' data-type='t' class='uptBtn' id='up'  u_id='"+val.u_id+"' data='http://localhost:8080/equipment_war/updateUser?u_id="+val.u_id +"' title='编辑'><i class='Hui-iconfont'>&#xe6df;</i></a> " +
-								"<a style='text-decoration:none' href='javascript:;' class='delBtn' u_id='"+val.u_id+"' data='http://localhost:8080/equipment_war/deleteUser?u_id="+val.u_id +"' title='删除'>" +
+								"<a style='text-decoration:none' href='javascript:;' data-method='offset1' data-type='t' class='uptBtn' id='up' u_name='"+val.u_name+"' u_sex='"+val.u_sex+"' u_phone='"+val.u_phone+"' u_class='"+val.u_class+"' u_pwd='"+val.u_pwd+"'  u_id='"+val.u_id+"' data='http://localhost:8080/equipment_war_exploded/updateUser?u_id="+val.u_id +"' title='编辑'><i class='Hui-iconfont'>&#xe6df;</i></a> " +
+								"<a style='text-decoration:none' href='javascript:;' class='delBtn' u_id='"+val.u_id+"' data='http://localhost:8080/equipment_war_exploded/deleteUser?u_id="+val.u_id +"' title='删除'>" +
 								"<i class='Hui-iconfont'>&#xe6e2;</i></a></td>"+
 						"</tr>";
 						$(".text-c").append($(_html));
@@ -138,8 +135,9 @@
 
 		delBtn : function(){
 		$(document).on("click",".delBtn",function(){          //$()jq选择器，$(document)选中的是整个html所有元素的集合
-			console.log(111);
 			var $this = $(this);
+			console.log("222",$this)
+			console.log("1111",this);
 			var _data = $this.attr("data");
 			var u_id = $this.attr("u_id");
 			$.ajax({
@@ -167,8 +165,13 @@
 			var $ = layui.jquery, layer = layui.layer; //独立版的layer无需执行这一句
 			var active = {
 				offset1: function (othis) {
-					var type = othis.data('type')
+					var type = othis.data('type');
 					var u_id = othis.attr("u_id");
+					var u_name = othis.attr("u_name");
+					var u_sex = othis.attr("u_sex");
+					var u_phone = othis.attr("u_phone");
+					var u_class = othis.attr("u_class");
+					var u_pwd = othis.attr("u_pwd");
 					layer.open({
 						type: 1
 						, offset: type //具体配置参考：http://www.layui.com/doc/modules/layer.html#offset
@@ -200,17 +203,27 @@
                                 }
                             });*/
 							console.log("表格",ad.data)
+
 							$.each(ad.data,function(index,val){
-								if(val.u_id = u_id){
-									console.log("或取得的数据",val);
-									console.log("数据",val.u_sex);
-									$("#Uid").val(val.u_id);
-									$("#Uname").val(val.u_name);
-									$(".sex").val(val.u_sex);
-									$("#Uphone").val(val.u_phone);
-									$("#Uclass").val(val.u_class);
-									$("#Upwd").val(val.u_pwd);
-								}
+								console.log("222",val);
+
+
+									if(val.u_id = u_id){
+										console.log("或取得的数据",val.u_id);
+										$("#Uid").val(val.u_id);
+										// $("#Uid").attr("disabled",val.u_id);
+										$("#Uname").val(u_name);
+										//$(".sex").val(u_sex);
+										$("#Uphone").val(u_phone);
+										$("#Uclass").val(u_class);
+										$("#Upwd").val(u_pwd);
+										if (u_sex=='男'){
+											$('input[id="Bsex"]').filter(':checked').val(u_sex);//$(‘input[id=”sc_ct”]’).filter(‘:checked’).val();
+										} else {
+											$('input[id="Gsex"]').filter(':checked').val(u_sex);
+										}
+									}
+
 							})
 
 						}
@@ -222,7 +235,7 @@
 							var update = $("#new_User_form").serialize();
 							console.log("123123", $("#new_User_form").serialize());
 							$.ajax({
-								url:"http://localhost:8080/equipment_war/updateUser" , //要处理的页面"http://localhost:8080/equipment_war/updateUser"
+								url:"http://localhost:8080/equipment_war_exploded/updateUser" , //要处理的页面"http://localhost:8080/equipment_war/updateUser"
 								data: update,  //要传过去的数据
 								type: "POST",  //提交方式
 								dataType: "JSON", //返回的数据类型，TEXT字符串 JSON返回JSON XML返回XML；dataType中T要大写！！
@@ -275,9 +288,9 @@
 							//提交按钮回调
 
 							var  add= $("#new_User_form").serialize();
-							console.log("234234",$("#new_User_form").serialize());
+							//console.log("234234",$("#new_User_form").serialize());
 							$.ajax({
-								url:"http://localhost:8080/equipment_war/addUser", //要处理的页面
+								url:"http://localhost:8080/equipment_war_exploded/addUser", //要处理的页面
 								data: add,  //要传过去的数据
 								type:"POST",  //提交方式
 								dataType:"JSON", //返回的数据类型，TEXT字符串 JSON返回JSON XML返回XML；dataType中T要大写！！
@@ -325,7 +338,7 @@
 	<div>
 		<label class="xingbie" style="font-size: 15px;margin-left: 5px;">性别:</label>
 		<div>
-			<input name="u_sex" id="Bsex" type="radio"checked="checked"  class="sex" style="margin-left: 5px;width: 30px;height: 15px;" value="男">男
+			<input name="u_sex" id="Bsex" type="radio"  class="sex" style="margin-left: 5px;width: 30px;height: 15px;" value="男">男
 			<input name="u_sex" id="Gsex" type="radio"  class="sex" style="margin-left: 5px;width: 30px;height: 15px;" value="女">女
 		</div>
 	</div>
