@@ -1,6 +1,7 @@
 package com.equipment.mapper;
 
 import com.equipment.entity.User;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -14,6 +15,6 @@ public interface UserMapper {
    //修改用户
    public  int updateUser(User user);
    //查询搜索信息
-    public List<User> oneUser(String u_id);
+    public List<User> oneUser(@Param("u_id") String u_id);
     public User serchPhone(String u_phone);
 }

@@ -8,8 +8,7 @@
 </select>
 <!--查询单个用户数据-->
     <select id="oneUser" parameterType="String" resultType="User">
-        select * from User where u_id like '${u_id}';
-
+        select * from User where u_id like concat('%',#{u_id},'%');
     </select>
 <!--    添加用户数据-->
     <insert id="insertUser" parameterType="User" >
