@@ -36,8 +36,8 @@
 		</span> 日期范围：
 		<input type="text" onfocus="WdatePicker({ maxDate:'#F{$dp.$D(\'logmax\')||\'%y-%M-%d\'}' })" id="logmin" class="input-text Wdate" style="width:120px;">
 		<input type="text" onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'logmin\')}',maxDate:'%y-%M-%d' })" id="logmax" class="input-text Wdate" style="width:120px;">
-		<input type="text" name="" id="zixunname"  placeholder=" " style="width:250px" class="input-text">
-		<button name="" id="submitname" class="btn btn-success" type="submit"><i class="Hui-iconfont">&#xe665;</i> 搜索</button>
+		<input type="text" name="" id="serchId" value="" placeholder="输入账号 " style="width:250px" class="input-text">
+		<button name="" id="sou" class="btn btn-success" type="submit"><i class="Hui-iconfont">&#xe665;</i> 搜索</button>
 	</div>
 	<div class="cl pd-5 bg-1 bk-gray mt-20" id="layerDemo" > <span class="l">
         <a href="javascript:;" onclick="datadel()" class="btn btn-danger radius">
@@ -131,6 +131,7 @@
 			});
 
 		},
+
 			//删除功能
 
 		delBtn : function(){
@@ -263,7 +264,51 @@
 		}),
 			}
 	ad.init();
+
+    //搜索功能
+    $('#sou').on('click',function () {
+
+
+        var sercherId = document.getElementById("serchId");
+        console.log("111",sercherId);
+        var serch = sercherId.value;
+        console.log("222",serch);
+        $.ajax({
+            url:"http://localhost:8080/equipment_war_exploded/oneUser",
+            type:"post",
+            data:{u_id:serch},
+            dataType:'JSON',
+            success:function (data) {
+                $(".text-c").html("");
+                console.log(data);
+              //  var jspnData = JSON.parse(data);//把反回来的字符串转换成对象类型
+                for (var i = 0;i<data.length;i++){
+                    var  val = data[i];
+                    var  _html="<tr>"+
+                        "<td><input align='center' type='checkbox' value='' name=''></td>"+
+                        "<td id='Yid'> "+val.u_id+"</td>" +
+                        "<td id='Yname'>"+val.u_name+"</td>" +
+                        "<td id='Ysex' >"+val.u_sex+"</td>" +
+                        "<td  id='Yphone'>"+val.u_phone+"</td>" +
+                        "<td  id='Yclass'>"+val.u_class+"</td>" +
+                        "<td  id='Ypwd'>"+val.u_pwd+"</td>"+
+                        "<td class='f-14 td-manage'><a style='text-decoration:none' </a> " +
+                        "<a style='text-decoration:none' href='javascript:;' data-method='offset1' data-type='t' class='uptBtn' id='up' u_name='"+val.u_name+"' u_sex='"+val.u_sex+"' u_phone='"+val.u_phone+"' u_class='"+val.u_class+"' u_pwd='"+val.u_pwd+"'  u_id='"+val.u_id+"' data='http://localhost:8080/equipment_war_exploded/updateUser?u_id="+val.u_id +"' title='编辑'><i class='Hui-iconfont'>&#xe6df;</i></a> " +
+                        "<a style='text-decoration:none' href='javascript:;' class='delBtn' u_id='"+val.u_id+"' data='http://localhost:8080/equipment_war_exploded/deleteUser?u_id="+val.u_id +"' title='删除'>" +
+                        "<i class='Hui-iconfont'>&#xe6e2;</i></a></td>"+
+                        "</tr>";
+                    $(".text-c").append($(_html));
+                };
+            },
+            error:function () {
+                alert("失败")
+            }
+        });
+    });
+
 </script>
+
+
 
 <!--添加功能-->
 <script>

@@ -14,6 +14,6 @@ public interface UserMapper {
    //修改用户
    public  int updateUser(User user);
    //查询搜索信息
-    public User oneUser(String u_id);
+    public List<User> oneUser(String u_id);
     public User serchPhone(String u_phone);
 }

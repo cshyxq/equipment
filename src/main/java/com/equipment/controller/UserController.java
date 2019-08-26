@@ -4,6 +4,7 @@ package com.equipment.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.equipment.entity.User;
 import com.equipment.service.UserService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,9 +31,9 @@ public class UserController {
 //    查询单个用户
 @RequestMapping("/oneUser")
 @ResponseBody
-public Object one(String u_id,Model model){
-    User one = userService.oneUser(u_id);
-    String objectOne = JSONObject.toJSONString(one);//转换成json格式
+public Object one(String u_id){
+    List<User> serch = userService.oneUser(u_id);
+    String objectOne = JSONObject.toJSONString(serch);//转换成json格式
     System.out.println("打印查询单个");
     return objectOne;
 }
