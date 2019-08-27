@@ -7,9 +7,34 @@
     select * from User
 </select>
 <!--查询单个用户数据-->
+  <!--  select * from User where 1=1
+    <if test="u_id !=null and u_id !=''">
+        and  u_id like concat('%',#{u_id},'%');
+    </if>-->
     <select id="oneUser" parameterType="String" resultType="User">
-        select * from User where u_id like concat('%',#{u_id},'%');
-    </select>
+
+        select * from User
+        <where>
+            <if test="u_sex != null">
+                u_sex = trim(#{u_sex})
+            </if>
+            <if test="u_sex == null and u_id != null">
+                u_id like concat('%',#{u_id},'%')
+                or u_name like concat('%',#{u_id},'%')
+                or u_phone like concat('%',#{u_id},'%')
+                or u_class like concat('%',#{u_id},'%')
+            </if>
+            <if test="u_sex != null and u_id != null">
+                and (
+                    u_id like concat('%',#{u_id},'%')
+                    or u_name like concat('%',#{u_id},'%')
+                    or u_phone like concat('%',#{u_id},'%')
+                    or u_class like concat('%',#{u_id},'%')
+                )
+            </if>
+        </where>
+
+   </select>
 <!--    添加用户数据-->
     <insert id="insertUser" parameterType="User" >
         insert into User(u_id,u_name,u_sex,u_phone,u_class,u_pwd)values (#{u_id},#{u_name},#{u_sex},#{u_phone},#{u_class},#{u_pwd})

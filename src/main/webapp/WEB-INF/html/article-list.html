@@ -32,16 +32,17 @@
 <div class="page-container">
 	<div class="text-container">
 		<button onclick="removeIframe()" class="btn btn-primary radius">关闭选项卡</button>
+                 性别：
 	 <span class="select-box inline">
-		<select name="cars" class="select">
-			<option value="0">性别</option>
-			<option value="1">男</option>
-			<option value="2">女</option>
+		<select name="u_name" id="select" class="select">
+			<option value="">--请选择--</option>
+			<option value="男">男</option>
+			<option value="女">女</option>
 		</select>
-		</span> 日期范围：
+		</span> <!--日期范围：
 		<input type="text" onfocus="WdatePicker({ maxDate:'#F{$dp.$D(\'logmax\')||\'%y-%M-%d\'}' })" id="logmin" class="input-text Wdate" style="width:120px;">
-		<input type="text" onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'logmin\')}',maxDate:'%y-%M-%d' })" id="logmax" class="input-text Wdate" style="width:120px;">
-		<input type="text" name="" id="serchId" value="" placeholder="请输入账号 " style="width:250px" class="input-text">
+		<input type="text" onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'logmin\')}',maxDate:'%y-%M-%d' })" id="logmax" class="input-text Wdate" style="width:120px;">-->
+		<input type="text" name="" id="serchId" value="" placeholder="搜索" style="width:180px" class="input-text">
 		<button name="" id="sou" class="btn btn-success" type="submit"><i class="Hui-iconfont">&#xe665;</i> 搜索</button>
 	</div>
 	<div class="cl pd-5 bg-1 bk-gray mt-20" id="layerDemo" > <span class="l">
@@ -224,9 +225,9 @@
 										$("#Uclass").val(u_class);
 										$("#Upwd").val(u_pwd);
 										if (u_sex=='男'){
-											$('input[id="Bsex"]').filter(':checked').val(u_sex);//$(‘input[id=”sc_ct”]’).filter(‘:checked’).val();
+											$('input[id="Bsex"]').filter(':checked');//$(‘input[id=”sc_ct”]’).filter(‘:checked’).val();
 										} else {
-											$('input[id="Gsex"]').filter(':checked').val(u_sex);
+											$('input[id="Gsex"]').filter(':checked');
 										}
 									}
 
@@ -273,20 +274,18 @@
 
     //搜索功能
     $('#sou').on('click',function () {
-
-
-        var sercherId = document.getElementById("serchId");
-        console.log("111",sercherId);
-        var serch = sercherId.value;
-        console.log("222",serch);
+        var serchId = document.getElementById("serchId");
+        var serchSex = document.getElementById("select");
+        var uId = serchId.value;
+        var uSex = serchSex.value;
         $.ajax({
             url:"http://localhost:8080/equipment_war_exploded/oneUser",
             type:"post",
-            data:{u_id:serch},
+            data:{u_id:uId,u_sex:uSex},
             dataType:'JSON',
             success:function (data) {
                 $(".text-c").html("");
-                console.log(data);
+                console.log("serchdata:",data);
               //  var jspnData = JSON.parse(data);//把反回来的字符串转换成对象类型
                 for (var i = 0;i<data.length;i++){
                     var  val = data[i];
@@ -311,9 +310,7 @@
             }
         });
     });
-
 </script>
-
 
 
 <!--添加功能-->

@@ -9,5 +9,5 @@ public interface UserService {
     public int  insertUser(User user);
     public void deleteUser(String u_id);
     public  int updateUser(User user);
-    public  List<User> oneUser(String u_id);
+    public  List<User> oneUser(String u_id,String u_sex);
 }

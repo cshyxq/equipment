@@ -2,6 +2,7 @@ package com.equipment.service;
 
 import com.equipment.mapper.UserMapper;
 import com.equipment.entity.User;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,7 +29,7 @@ public class UserServiceImpl implements UserService {
     }
     @Override
     @Transactional
-    public List<User> oneUser(String u_id) {
-        return this.userDao.oneUser(u_id);
+    public List<User> oneUser(String u_id,String u_sex) {
+        return this.userDao.oneUser(u_id,u_sex);
     }
 }

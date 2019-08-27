@@ -1804,8 +1804,8 @@ a cite {
 
 .layui-btn {
     display: inline-block;
-    height: 38px;
-    line-height: 38px;
+    height: 31px;
+    line-height: 1.42857;
     padding: 0 18px;
     background-color: #009688;
     color: #fff;
@@ -1813,7 +1813,7 @@ a cite {
     text-align: center;
     font-size: 14px;
     border: none;
-    border-radius: 2px;
+    border-radius: 5px;
     cursor: pointer
 }
 

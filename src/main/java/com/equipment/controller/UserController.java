@@ -31,12 +31,19 @@ public class UserController {
 //    查询单个用户
 @RequestMapping("/oneUser")
 @ResponseBody
-public Object one(String u_id){
-    List<User> serch = userService.oneUser(u_id);
+public Object one(String u_id,String u_sex){
+    if(u_id != null && u_id.length()==0){
+        u_id = null;
+    }
+    if(u_sex != null && u_sex.length()==0){
+        u_sex = null;
+    }
+    List<User> serch = userService.oneUser(u_id,u_sex);
     String objectOne = JSONObject.toJSONString(serch);//转换成json格式
     System.out.println("打印查询单个");
     return objectOne;
 }
+
 //增加用户信息
     @RequestMapping("/addUser")
     @ResponseBody
