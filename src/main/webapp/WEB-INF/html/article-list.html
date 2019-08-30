@@ -50,7 +50,7 @@
             <i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a>
         <button data-method="offset" data-type="t" class="layui-btn layui-btn-normal"><i class="Hui-iconfont">&#xe600;</i> 新增</button>
 <!--            <i class="Hui-iconfont">&#xe600;</i> 添加资讯</a>-->
-    </span> <span class="r">共有数据：<strong>54</strong> 条</span> </div>
+    </span> <span class="r">共有数据：<strong id="shuzi"></strong> 条</span> </div>
 	<div class="mt-20">
 		<table class="table table-border table-bordered table-bg table-hover table-sort table-responsive" width="100%" border="1">
 			<thead>
@@ -129,7 +129,9 @@
 								"<i class='Hui-iconfont'>&#xe6e2;</i></a></td>"+
 						"</tr>";
 						$(".text-c").append($(_html));
-					};
+                        document.getElementById('shuzi').innerHTML = data.length;//共有数据
+
+                    };
 
 				},
 				error:function () {
@@ -138,7 +140,6 @@
 			});
 
 		},
-
 			//删除功能
 
 		delBtn : function(){
@@ -512,7 +513,7 @@
 	<div>
 		<label class="lianxi" style="font-size: 15px;margin-left: 5px;">联系方式:</label>
 		<div>
-			<input type="text" name="u_phone" id="Uphone" placeholder="请输入你的联系方式" class="phone" style="margin-left: 5px;width: 120px;height: 30px;">
+			<input type="text" name="u_phone" id="Upho	ne" placeholder="请输入你的联系方式" class="phone" style="margin-left: 5px;width: 120px;height: 30px;">
 		</div>
 	</div>
 	<div>
