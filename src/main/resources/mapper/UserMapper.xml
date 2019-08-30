@@ -40,9 +40,23 @@
         insert into User(u_id,u_name,u_sex,u_phone,u_class,u_pwd)values (#{u_id},#{u_name},#{u_sex},#{u_phone},#{u_class},#{u_pwd})
     </insert>
 <!--    刪除用戶-->
+  <!--批量删除，foreach遍历数据
+    delete from User where u_id in
+    <foreach collection="list" item="u_id" index="index" open="("separator="," close=")">
+    #{u_id}
+    </foreach>
+    -->
     <delete id="deleteUser" parameterType="User">
         delete from User where u_id=#{u_id}
     </delete>
+    <!--批量删除-->
+    <delete id="deleteMany" >
+        delete from User where u_id in
+        <foreach collection="arr" item="u_id" index="index" open="(" separator="," close=")">
+            #{u_id}
+        </foreach>
+    </delete>
+
 <!--    更新用户-->
     <update id="updateUser" parameterType="String" >
           update User set u_name=#{u_name},u_sex=#{u_sex},u_phone=#{u_phone},u_class=#{u_class},u_pwd=#{u_pwd} where u_id=#{u_id}

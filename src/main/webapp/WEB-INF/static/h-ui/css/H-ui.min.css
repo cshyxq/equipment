@@ -3009,7 +3009,8 @@ table th {
 }
 
 .table-bg thead th {
-    background-color: #f5fafe
+    background-color: #f5fafe;
+    text-align: center;
 }
 
 .table-bordered {

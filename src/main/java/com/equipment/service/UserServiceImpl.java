@@ -32,4 +32,9 @@ public class UserServiceImpl implements UserService {
     public List<User> oneUser(String u_id,String u_sex) {
         return this.userDao.oneUser(u_id,u_sex);
     }
+
+    @Override
+    public void deleteMany(String[] id_arr) {
+        this.userDao.deleteMany(id_arr);
+    }
 }

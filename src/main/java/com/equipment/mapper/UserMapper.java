@@ -16,5 +16,6 @@ public interface UserMapper {
    public  int updateUser(User user);
    //查询搜索信息
     public List<User> oneUser(@Param("u_id") String u_id,@Param("u_sex") String u_sex);
-    public User serchPhone(String u_phone);
+    //批量删除
+    public void deleteMany(@Param("arr") String [] id_arr);
 }

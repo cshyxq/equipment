@@ -19,7 +19,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-//    查询所有用户信息
+//    遍历所有用户信息
     @RequestMapping("/userList")
     @ResponseBody
    public Object list(User user,Model model){
@@ -28,7 +28,7 @@ public class UserController {
         System.out.println("打印查询");
         return objectStr;
     }
-//    查询单个用户
+//    查询功能
 @RequestMapping("/oneUser")
 @ResponseBody
 public Object one(String u_id,String u_sex){
@@ -78,4 +78,13 @@ public Object one(String u_id,String u_sex){
             return "Fail";
         }
     }
+    //批量删除
+
+    @RequestMapping("/deleteMany")
+    @ResponseBody
+    public Object batchDelete(String[] id_arr ){
+         userService.deleteMany(id_arr);
+    return true;
+    }
+
 }

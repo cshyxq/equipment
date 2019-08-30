@@ -46,7 +46,7 @@
 		<button name="" id="sou" class="btn btn-success" type="submit"><i class="Hui-iconfont">&#xe665;</i> 搜索</button>
 	</div>
 	<div class="cl pd-5 bg-1 bk-gray mt-20" id="layerDemo" > <span class="l">
-        <a href="javascript:;" onclick="datadel()" class="btn btn-danger radius">
+        <a href="javascript:;"  class="btn btn-danger radius delbtn">
             <i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a>
         <button data-method="offset" data-type="t" class="layui-btn layui-btn-normal"><i class="Hui-iconfont">&#xe600;</i> 新增</button>
 <!--            <i class="Hui-iconfont">&#xe600;</i> 添加资讯</a>-->
@@ -55,7 +55,7 @@
 		<table class="table table-border table-bordered table-bg table-hover table-sort table-responsive" width="100%" border="1">
 			<thead>
 				<tr class="text-biao">
-					<th width="25"><input align='center' type="checkbox" name="" value=""></th>
+					<th width="25"><input  type="checkbox" name="" value=""></th>
 					<th width="90">账号</th>
 					<th width="90">姓名</th>
 					<th width="80">性别</th>
@@ -116,7 +116,7 @@
 						var  val = data[i];
 						console.log(val)
 						var  _html="<tr>"+
-								"<td><input align='center' type='checkbox' value='' name=''></td>"+
+								"<td><input align='center' class='xuan' type='checkbox' value='" + val.u_id + "' name=''></td>"+
 								"<td id='Yid'> "+val.u_id+"</td>" +
 								"<td id='Yname'>"+val.u_name+"</td>" +
 								"<td id='Ysex' >"+val.u_sex+"</td>" +
@@ -130,6 +130,7 @@
 						"</tr>";
 						$(".text-c").append($(_html));
 					};
+
 				},
 				error:function () {
 					alert("失败")
@@ -147,20 +148,24 @@
 			console.log("1111",this);
 			var _data = $this.attr("data");
 			var u_id = $this.attr("u_id");
+			layer.confirm("确认要删除吗？",function (index) {
 			$.ajax({
 				url : _data,
 				type : 'POST',
 				dataType:'json',
 				success:function(data){
 					$(".line_"+u_id).remove();//抹除掉class="'.line_'+cno"这一行记录
-					layer.alert("删除成功",function () {
-						window.location.reload();
-					});
+                    // window.location.reload();
+                    document.location.reload();
+					/*layer.alert("已删除",function () {
+
+					});*/
 				},
 				error:function(){
 					layer.alert("删除失败！")
 				}
-			})
+			});
+            })
 		})
 	},
 
@@ -172,6 +177,7 @@
 			var $ = layui.jquery, layer = layui.layer; //独立版的layer无需执行这一句
 			var active = {
 				offset1: function (othis) {
+				    console.log("111",othis);
 					var type = othis.data('type');
 					var u_id = othis.attr("u_id");
 					var u_name = othis.attr("u_name");
@@ -185,7 +191,45 @@
 						, id: 'up' + type //防止重复弹出
 						, area: ['500px', '500px']
 						, title: ['编辑用户', 'font-size:15px;color:#fff;background-color:#01AAED;']
-						, content: $('#new_User_form')
+						, content: '<form class="UserDemo" id="new_User_bj">' +
+                            '<div>' +
+                            '<label class="xingming" style="font-size: 15px;margin-left: 5px;">账号：</label>' +
+                            '<div>' +
+                            '<input type="text" readonly unselectable="on" name="u_id" id="Uid" placeholder="请输入你的账号"  class="zhanghao" style="margin-left: 5px;width: 100px;height: 30px;">' +
+                            '</div>' +
+                            '</div>' +
+                            '<div>' +
+                            '<label class="xingming" style="font-size: 15px;margin-left: 5px;">姓名:</label>' +
+                            '<div>' +
+                            '<input type="text"  name="u_name" id="Uname" placeholder="请输入你的姓名" class="name" style="margin-left: 5px;width: 100px;height: 30px;">' +
+                            '</div>' +
+                            '</div>' +
+                            '<div>' +
+                            '<label class="xingbie" style="font-size: 15px;margin-left: 5px;">性别:</label>' +
+                            '<div>' +
+                            '<input name="u_sex" id="Bsex" type="radio" checked="checked"  class="sex" style="margin-left: 5px;width: 30px;height: 15px;" value="男">男' +
+                            '<input name="u_sex" id="Gsex" type="radio"  class="sex" style="margin-left: 5px;width: 30px;height: 15px;" value="女">女' +
+                            '</div>' +
+                            '</div>' +
+                            '<div>' +
+                            '<label class="lianxi" style="font-size: 15px;margin-left: 5px;">联系方式:</label>' +
+                            '<div>' +
+                            '<input type="text" name="u_phone" id="Uphone" placeholder="请输入你的联系方式" class="phone" style="margin-left: 5px;width: 120px;height: 30px;">' +
+                            '</div>' +
+                            '</div>' +
+                            '<div>' +
+                            '<label class="banji" style="font-size: 15px;margin-left: 5px;">班级:</label>' +
+                            '<div>' +
+                            '<input type="text" name="u_class" id="Uclass" placeholder="请输入你的班级" class="class" style="margin-left: 5px;width: 100px;height: 30px;">' +
+                            '</div>' +
+                            '</div>' +
+                            '<div>' +
+                            '<label class="mima" style="font-size: 15px;margin-left: 5px;">密码:</label>' +
+                            '<div>' +
+                            '<input type="text" name="u_pwd" id="Upwd" placeholder="请输入你的密码" class="pwd" style="margin-left: 5px;width: 100px;height: 30px;">' +
+                            '</div>' +
+                            '</div>' +
+                            '</form>'
 						, btn: ['保存', '返回']
 						, btnAlign: 'r' //按钮居右
 						, shade: 0.1 //不显示遮罩
@@ -225,9 +269,9 @@
 										$("#Uclass").val(u_class);
 										$("#Upwd").val(u_pwd);
 										if (u_sex=='男'){
-											$('input[id="Bsex"]').filter(':checked');//$(‘input[id=”sc_ct”]’).filter(‘:checked’).val();
+											$('input[id="Bsex"]').filter('checked').val();//$(‘input[id=”sc_ct”]’).filter(‘:checked’).val();
 										} else {
-											$('input[id="Gsex"]').filter(':checked');
+											$('input[id="Gsex"]').filter('checked').val();
 										}
 									}
 
@@ -239,8 +283,8 @@
 							/*	var $this = $(".uptBtn");
                                 var data1 = $this.attr("data");
                                 var u_id = $this.attr("u_id");*/
-							var update = $("#new_User_form").serialize();
-							console.log("123123", $("#new_User_form").serialize());
+							var update = $("#new_User_bj").serialize();
+							console.log("123123", $("#new_User_bj").serialize());
 							$.ajax({
 								url:"http://localhost:8080/equipment_war_exploded/updateUser" , //要处理的页面"http://localhost:8080/equipment_war/updateUser"
 								data: update,  //要传过去的数据
@@ -271,6 +315,43 @@
 		}),
 			}
 	ad.init();
+
+	//批量删除
+	$("#layerDemo").on("click",".delbtn",function(){
+
+     	 // var  str = arr.join("");
+            layer.confirm("确认要删除吗？", function (index) {
+                var arr = [];
+                console.log("inoutsdfsf",$(".xuan"));
+                $(".xuan").each(function(i,dom){
+                    var $this = $(this);
+                    var num = $this.is(":checked");
+							if(num){
+                        //循环遍历，push()方法可向数组的末尾添加一个或多个元素，并返回新的长度
+                        arr.push($this.val());//复选框的值是已经取到的数据id
+                    }
+                    console.log("参数",arr.toString());
+                $.ajax({
+                    url: "http://localhost:8080/equipment_war_exploded/deleteMany",
+                    type: 'POST',
+					data:{id_arr:arr.toString()},
+                    dataType: 'json',
+                    success: function (data) {
+                       /* $this.is(":checked").each(function() {
+                            //删除成功之后，将选中的所属的tr移除
+                            $(this).parent().parent().remove();
+                        });*/
+                       // $this.is(":checked").removeAttr("checked");
+						document.location.reload();
+                    },
+                    error:function () {
+                        layer.msg('系统错误',{icon:1,time:1000});
+                    }
+                });
+            })
+            });
+
+	})
 
     //搜索功能
     $('#sou').on('click',function () {
@@ -328,14 +409,52 @@
 						, id: 'layerDemo' + type //防止重复弹出
 						, area:['500px','500px']
 						,title: ['添加用户', 'font-size:15px;color:#fff;background-color:#01AAED;']
-						, content:$('#new_User_form')
+						, content:'<form class="UserDemo" id="new_User_add">' +
+							'<div>' +
+                            '<label class="xingming" style="font-size: 15px;margin-left: 5px;">账号：</label>' +
+                            '<div>' +
+                            '<input type="text" name="u_id" id="Uid" placeholder="请输入你的账号"  class="zhanghao" style="margin-left: 5px;width: 100px;height: 30px;">' +
+                            '</div>' +
+                            '</div>' +
+                            '<div>' +
+                            '<label class="xingming" style="font-size: 15px;margin-left: 5px;">姓名:</label>' +
+                            '<div>' +
+                            '<input type="text"  name="u_name" id="Uname" placeholder="请输入你的姓名" class="name" style="margin-left: 5px;width: 100px;height: 30px;">' +
+                            '</div>' +
+                            '</div>' +
+                            '<div>' +
+                            '<label class="xingbie" style="font-size: 15px;margin-left: 5px;">性别:</label>' +
+                            '<div>' +
+                            '<input name="u_sex" id="Bsex" type="radio" checked="checked"  class="sex" style="margin-left: 5px;width: 30px;height: 15px;" value="男">男' +
+                            '<input name="u_sex" id="Gsex" type="radio"  class="sex" style="margin-left: 5px;width: 30px;height: 15px;" value="女">女' +
+                            '</div>' +
+                            '</div>' +
+                            '<div>' +
+                            '<label class="lianxi" style="font-size: 15px;margin-left: 5px;">联系方式:</label>' +
+                            '<div>' +
+                            '<input type="text" name="u_phone" id="Uphone" placeholder="请输入你的联系方式" class="phone" style="margin-left: 5px;width: 120px;height: 30px;">' +
+                            '</div>' +
+                            '</div>' +
+                            '<div>' +
+                            '<label class="banji" style="font-size: 15px;margin-left: 5px;">班级:</label>' +
+                            '<div>' +
+                            '<input type="text" name="u_class" id="Uclass" placeholder="请输入你的班级" class="class" style="margin-left: 5px;width: 100px;height: 30px;">' +
+                            '</div>' +
+                            '</div>' +
+                            '<div>' +
+                            '<label class="mima" style="font-size: 15px;margin-left: 5px;">密码:</label>' +
+                            '<div>' +
+                            '<input type="text" name="u_pwd" id="Upwd" placeholder="请输入你的密码" class="pwd" style="margin-left: 5px;width: 100px;height: 30px;">' +
+                            '</div>' +
+                            '</div>' +
+                            '</form>'
 						, btn: ['保存','返回']
 						, btnAlign: 'r' //按钮居右
 						, shade: 0 //不显示遮罩
 						, yes: function () {
 							//提交按钮回调
 
-							var  add= $("#new_User_form").serialize();
+							var  add= $("#new_User_add").serialize();
 							//console.log("234234",$("#new_User_form").serialize());
 							$.ajax({
 								url:"http://localhost:8080/equipment_war_exploded/addUser", //要处理的页面
@@ -347,7 +466,7 @@
 							});
 							layer.alert('添加成功',function(index){
 								layer.closeAll(index)
-								window.location.reload()
+								document.location.reload()
 							});
 						}
 						,btn2: function(index, layero){
@@ -370,7 +489,7 @@
 
 
 </body>
-<form class="UserDemo" id="new_User_form">
+<!--<form class="UserDemo" id="new_User_form">
 	<div>
 		<label class="xingming" style="font-size: 15px;margin-left: 5px;">账号：</label>
 		<div>
@@ -386,7 +505,7 @@
 	<div>
 		<label class="xingbie" style="font-size: 15px;margin-left: 5px;">性别:</label>
 		<div>
-			<input name="u_sex" id="Bsex" type="radio"  class="sex" style="margin-left: 5px;width: 30px;height: 15px;" value="男">男
+			<input name="u_sex" id="Bsex" type="radio" checked="checked"  class="sex" style="margin-left: 5px;width: 30px;height: 15px;" value="男">男
 			<input name="u_sex" id="Gsex" type="radio"  class="sex" style="margin-left: 5px;width: 30px;height: 15px;" value="女">女
 		</div>
 	</div>
@@ -408,5 +527,5 @@
 			<input type="text" name="u_pwd" id="Upwd" placeholder="请输入你的密码" class="pwd" style="margin-left: 5px;width: 100px;height: 30px;">
 		</div>
 	</div>
-</form>
+</form>-->
 </html>
